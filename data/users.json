@@ -1,0 +1,26 @@
+[
+    {
+        "id": "123",
+        "name": "Masha Tabala",
+        "password": "123456789",
+        "email": "mtabala@gmail.com",
+        "description": "I am a socially conscious individual who prioritize kindness and compassion in my daily life",
+        "image": "http://localhost:8000/images/user1.jpg"
+    },
+    {
+        "id": "234",
+        "name": "Emma Watson",
+        "password": "123456789",
+        "email": "ewatson@gmail.com",
+        "description": "I am a socially conscious individual who prioritize kindness and compassion in my daily life",
+        "image": "http://localhost:8000/images/user2.jpg"
+    },
+    {
+        "id": "345",
+        "name": "Tony Pepperoni",
+        "password": "123456789",
+        "email": "tony@gmail.com",
+        "description": "I am a socially conscious individual who prioritize kindness and compassion in my daily life",
+        "image": "http://localhost:8000/images/user3.jpg"
+    }
+]

@@ -72,19 +72,19 @@
         "image": "http://localhost:8000/images/12.jpg"
     },
     {
-        "id": 13,
+        "id": "13",
         "title": "Leave a Generous Tip",
         "description": "Leave a generous tip for your server or barista.",
         "image": "http://localhost:8000/images/13.jpg"
     },
     {
-        "id": 14,
+        "id": "14",
         "title": "Donate to a Charity",
         "description": "Make a donation to a charity that you care about.",
         "image": "http://localhost:8000/images/14.jpg"
     },
     {
-        "id": 15,
+        "id": "15",
         "title": "Offer to Babysit",
         "description": "Offer to babysit for a friend or family member who needs a break.",
         "image": "http://localhost:8000/images/15.jpg"
