@@ -31,5 +31,21 @@ usersRouter.get("/:id", (req, res) => {
     res.status(200).json(user);
 })
 
+usersRouter.post('/login', (req, res) => {
+    const loginInfo = req.body;
+
+    console.log('loginINfo: ', loginInfo)
+    const users = readUsers();
+
+    const user = users.find((user) => user.name === loginInfo.user);
+    if (!user) res.send('nothing')
+
+    res.json(user)
+
+    console.log('user: ', user)
+
+})
+
+
 
 module.exports = usersRouter;
