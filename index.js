@@ -12,6 +12,9 @@ app.use(express.json());
 app.use(cors());
 app.use('/kindness', kindnessRoutes);
 app.use('/profile', usersRoutes);
+app.use(express.static("public"));
+app.use("/images", express.static("./public/images"));
+
 
 app.listen(PORT, () => {
     console.log("server is running at port" + PORT)
