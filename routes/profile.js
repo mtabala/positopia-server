@@ -72,17 +72,33 @@ usersRouter.post('/login', (req, res) => {
 })
 
 usersRouter.post('/journal', (req, res) => {
-    const selectedAct = req.body;
+    const selectedAct = req.body.kindActTitle;
 
-    console.log('selectedAct: ', selectedAct)
+    // console.log('selectedAct: ', selectedAct)
     const users = readUsers();
 
-    const selectedActJournal = users.find((user) => user.name === selectedAct.user);
-    if (!selectedActJournal) res.send('nothing')
+    const selectedUser = users.find((user) => user.id === req.body.id);
+    selectedUser.currentActs.push(selectedAct);
 
-    res.json(selectedActJournal)
+    const userIndex = users.findIndex((user) => user.id === req.body.id);
+    users[userIndex] = selectedUser;
 
-    console.log('user: ', selectedActJournal)
+    fs.writeFile('./data/users.json', JSON.stringify(users), (err) => {
+        console.log(err);
+        console.log('wrote user?')
+
+        if (!selectedUser) res.send('nothing')
+
+        res.json(selectedUser.currentActs)
+
+        // console.log('user: ', selectedActJournal)
+    });
+
+
+    // console.log(selectedUser);
+    // console.log("selectedAct of user", selectedAct.user)
+
+
 
 })
 
