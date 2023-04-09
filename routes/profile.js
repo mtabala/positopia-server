@@ -18,7 +18,11 @@ usersRouter.get("/", (req, res) => {
             name: user.name,
             description: user.description,
             image: user.image,
-            id: user.id
+            id: user.id,
+            location: user.location,
+            rank: user.rank,
+            currentActs: user.currentActs,
+            completedActs: user.completedActs,
         }
     })
     res.status(200).json(usersData);
@@ -49,15 +53,17 @@ usersRouter.post("/", (req, res) => {
         email: req.body.email,
         description: req.body.description,
         image: req.body.image,
+        rank: req.body.rank,
+        location: req.body.location,
         currentActs: [
-            {
-                id: uuidv4()
-            },
+            // {
+            //     id: uuidv4()
+            // },
         ],
     }
     users.push(newUser);
     writeUsers(users);
-
+    // console.log("new user here?", newUser);
     res.status(201).send();
 })
 
