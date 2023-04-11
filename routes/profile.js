@@ -19,6 +19,7 @@ usersRouter.get("/", (req, res) => {
             description: user.description,
             image: user.image,
             id: user.id,
+            email: user.email,
             location: user.location,
             rank: user.rank,
             currentActs: user.currentActs,
@@ -41,7 +42,6 @@ function writeUsers(data) {
     fs.writeFileSync("./data/users.json", stringifiedData);
 }
 
-
 //post user
 usersRouter.post("/", (req, res) => {
     const users = readUsers();
@@ -55,32 +55,26 @@ usersRouter.post("/", (req, res) => {
         image: req.body.image,
         rank: req.body.rank,
         location: req.body.location,
-        currentActs: [
-            // {
-            //     id: uuidv4()
-            // },
-        ],
+        currentActs: [],
     }
     users.push(newUser);
     writeUsers(users);
-    // console.log("new user here?", newUser);
-    res.status(201).send();
+    res.status(201).send(newUser);
 })
 
 usersRouter.post('/login', (req, res) => {
     const loginInfo = req.body;
+    console.log(loginInfo);
     const users = readUsers();
-
+    console.log(users);
     const user = users.find((user) => user.name === loginInfo.user);
     if (!user) res.send('nothing')
 
     res.json(user)
 })
 
-usersRouter.post('/journal', (req, res) => {
+usersRouter.post('/profile', (req, res) => {
     const selectedAct = req.body.kindActTitle;
-
-    // console.log('selectedAct: ', selectedAct)
     const users = readUsers();
 
     const selectedUser = users.find((user) => user.id === req.body.id);
@@ -96,18 +90,7 @@ usersRouter.post('/journal', (req, res) => {
         if (!selectedUser) res.send('nothing')
 
         res.json(selectedUser.currentActs)
-
-        // console.log('user: ', selectedActJournal)
     });
-
-
-    // console.log(selectedUser);
-    // console.log("selectedAct of user", selectedAct.user)
-
-
-
 })
-
-
 
 module.exports = usersRouter;
