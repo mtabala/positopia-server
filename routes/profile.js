@@ -125,7 +125,7 @@ usersRouter.patch("/settings/:id", (req, res) => {
     const { password } = req.body;
     const { location } = req.body;
     const { description } = req.body;
-    console.log('re .id id id : ', req.params.id)
+    console.log('id id id : ', req.params.id)
     const index = users.findIndex((user) => user.id === req.params.id);
     console.log('index: ', index)
     users[index].name = name;
@@ -139,5 +139,28 @@ usersRouter.patch("/settings/:id", (req, res) => {
 
     res.send('it was successful')
 })
+
+usersRouter.delete("/:id/:act", (req, res) => {
+    const users = readUsers();
+    const index = users.findIndex((user) => user.id === req.params.id);
+    console.log(index)
+
+    const user = users[index];
+    console.log(req.params.act)
+
+    if (req.params.act !== -1) {
+        user.currentActs.splice(req.params.act, 1);
+
+        console.log(user)
+        writeUsers(users);
+
+        res.status(200).json(user.currentActs);
+        console.log("completed");
+
+    } else {
+        res.status(404).json({ error: "Act not found" });
+    }
+});
+
 
 module.exports = usersRouter;
