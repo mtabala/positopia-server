@@ -1,7 +1,19 @@
 const express = require("express");
 const usersRouter = express.Router();
+const multer = require('multer');
 const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/images')
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname)
+    }
+})
+
+const upload = multer({ storage: storage })
 
 //function to read users
 function readUsers() {
@@ -91,6 +103,41 @@ usersRouter.post('/profile', (req, res) => {
 
         res.json(selectedUser.currentActs)
     });
+})
+
+usersRouter.post("/settings", upload.single('file'), (req, res) => {
+    const users = readUsers();
+    const updatedUser = users.findIndex((user) => user.id === req.body.id);
+
+    users[updatedUser].image = `http://localhost:8000/images/${req.file.filename}`;
+    console.log(req.file);
+    fs.writeFile('./data/users.json', JSON.stringify(users), (err) => {
+        console.log(err);
+    })
+    res.status(200).send("working");
+})
+
+usersRouter.patch("/settings/:id", (req, res) => {
+    const users = readUsers();
+    // const { name, email, location, description, password } = req.body;
+    const { name } = req.body;
+    const { email } = req.body;
+    const { password } = req.body;
+    const { location } = req.body;
+    const { description } = req.body;
+    console.log('re .id id id : ', req.params.id)
+    const index = users.findIndex((user) => user.id === req.params.id);
+    console.log('index: ', index)
+    users[index].name = name;
+    users[index].password = password;
+    users[index].location = location;
+    users[index].email = email;
+    users[index].description = description;
+
+    console.log('user: ', users[index])
+    writeUsers(users);
+
+    res.send('it was successful')
 })
 
 module.exports = usersRouter;
