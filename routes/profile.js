@@ -65,7 +65,7 @@ usersRouter.post("/", (req, res) => {
         email: req.body.email,
         description: req.body.description,
         image: req.body.image,
-        rank: req.body.rank,
+        rank: "Kindness Newbie",
         location: req.body.location,
         currentActs: [],
         completedActs: [],
