@@ -68,6 +68,7 @@ usersRouter.post("/", (req, res) => {
         rank: req.body.rank,
         location: req.body.location,
         currentActs: [],
+        completedActs: [],
     }
     users.push(newUser);
     writeUsers(users);
@@ -119,7 +120,6 @@ usersRouter.post("/settings", upload.single('file'), (req, res) => {
 
 usersRouter.patch("/settings/:id", (req, res) => {
     const users = readUsers();
-    // const { name, email, location, description, password } = req.body;
     const { name } = req.body;
     const { email } = req.body;
     const { password } = req.body;
@@ -140,7 +140,7 @@ usersRouter.patch("/settings/:id", (req, res) => {
     res.send('it was successful')
 })
 
-usersRouter.delete("/:id/:act", (req, res) => {
+usersRouter.put("/:id/:act", (req, res) => {
     const users = readUsers();
     const index = users.findIndex((user) => user.id === req.params.id);
     console.log(index)
@@ -161,6 +161,35 @@ usersRouter.delete("/:id/:act", (req, res) => {
         res.status(404).json({ error: "Act not found" });
     }
 });
+
+usersRouter.put("/done/:id/:act", (req, res) => {
+    console.log("reached done route")
+    console.log("params id: ", req.params.id)
+    console.log("params act", req.params.act)
+    const selectedAct = req.params.act;
+    const users = readUsers();
+
+    const selectedUser = users.find((user) => user.id === req.params.id);
+    console.log(selectedUser);
+    //push to the completed acts array
+    selectedUser.completedActs.push(selectedAct);
+
+
+    //remove from the current acts array 
+    selectedUser.currentActs.splice(req.params.act, 1);
+    //looking for an index of the selected user 
+    const userIndex = users.findIndex((user) => user.id === req.body.id);
+    //insert updated user back into the user array
+    users[userIndex] = selectedUser;
+
+    fs.writeFile('./data/users.json', JSON.stringify(users), (err) => {
+        console.log(err);
+
+        if (!selectedUser) res.send('nothing')
+
+        res.status(200).send();
+    });
+})
 
 
 module.exports = usersRouter;
