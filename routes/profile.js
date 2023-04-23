@@ -29,6 +29,7 @@ usersRouter.get("/", (req, res) => {
         return {
             name: user.name,
             description: user.description,
+            password: user.password,
             image: user.image,
             id: user.id,
             email: user.email,
