@@ -37,6 +37,7 @@ usersRouter.get("/", (req, res) => {
             rank: user.rank,
             currentActs: user.currentActs,
             completedActs: user.completedActs,
+            journalEntries: user.journalEntries,
         }
     })
     res.status(200).json(usersData);
@@ -70,6 +71,14 @@ usersRouter.post("/", (req, res) => {
         location: req.body.location,
         currentActs: [],
         completedActs: [],
+        journalEntries: [
+            {
+                id: uuidv4(),
+                title: req.body.title,
+                date: Date.now(),
+                story: req.body.story,
+            }
+        ]
     }
     users.push(newUser);
     writeUsers(users);
